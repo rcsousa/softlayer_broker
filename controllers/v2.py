@@ -1,0 +1,64 @@
+# coding: utf8
+auth.settings.allow_basic_login = True
+@auth.requires_login()
+def catalog():
+    from gluon.tools import Auth
+    import yaml
+    import json
+    with open('/settings_mongodb.yml', 'r') as f:
+        yaml_settings = yaml.load(f)
+    json_settings = json.dumps(yaml_settings)
+    data = json.loads(json_settings)
+    return data['catalog']
+
+@auth.requires_login()
+def service_instances():
+    import uuid, os, yaml, json, docker
+    id = request.args
+    with open('/settings_mongodb.yml', 'r') as f:
+        yaml_settings = yaml.load(f)
+    json_settings = json.dumps(yaml_settings)
+    data = json.loads(json_settings)
+    password = "passwd_"+str(hash(id[0][0-10]))
+    host = str(hash(id[0][0-10]))
+    c = docker.Client(base_url='unix://var/run/docker.sock')
+    if len(id) == 1:
+        if request.env.request_method == "PUT":
+            container = c.create_container('tutum/mongodb', hostname=host, environment=["MONGODB_PASS="+password], ports=[27017])
+            c.start(container, port_bindings={27017:('0.0.0.0',)})
+            response = { "dashboard_url": container['Id'] }
+            return response
+        if request.env.request_method == "DELETE":
+            try:
+                list = []
+                containers_l = c.containers()
+                for x in containers_l:
+                    cont_deep = c.inspect_container(x['Id'])
+                    list.append(cont_deep)
+                for y in list:
+                    if y['Config']['Hostname'] == host:
+                        id_container = y['ID']
+                c.stop(id_container)
+                c.remove_container(id_container)
+                response = {}
+                return response
+            except:
+                raise HTTP(410, "Gone")
+                response = {}
+                return response
+    if len(id) > 1:
+        if request.env.request_method == "PUT":
+            list = []
+            containers_l = c.containers()
+            for x in containers_l:
+                cont_deep = c.inspect_container(x['Id'])
+                list.append(cont_deep)
+            for y in list:
+                if y['Config']['Hostname'] == host:
+                    IpAddr = y['NetworkSettings']['IPAddress']
+                    Port = y['NetworkSettings']['Ports']
+            response = {"credentials": {"username": "admin" ,"password": password,"host": IpAddr,"port": Port}}
+            return response
+        if request.env.request_method == "DELETE":
+            response = {}
+            return response

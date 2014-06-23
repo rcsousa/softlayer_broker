@@ -1,0 +1,984 @@
+(dp1
+S'output'
+p2
+S"<class 'requests.exceptions.ConnectionError'> UnixHTTPConnectionPool(host='localhost', port=None): Max retries exceeded with url: /run/docker.sock/v1.9/containers/create (Caused by <class 'socket.error'>: [Errno 13] Permission denied)"
+p3
+sS'layer'
+p4
+S'/var/www/web2py/applications/custom_mongodb_broker/controllers/v2.py'
+p5
+sS'code'
+p6
+S'# coding: utf8\nauth.settings.allow_basic_login = True\n@auth.requires_login()\ndef catalog():\n    from gluon.tools import Auth\n    import yaml\n    import json\n    with open(\'/settings_mongodb.yml\', \'r\') as f:\n        yaml_settings = yaml.load(f)\n    json_settings = json.dumps(yaml_settings)\n    data = json.loads(json_settings)\n    return data[\'catalog\']\n\n@auth.requires_login()\ndef service_instances():\n    import uuid, os, yaml, json, docker\n    id = request.args\n    with open(\'/settings_mongodb.yml\', \'r\') as f:\n        yaml_settings = yaml.load(f)\n    json_settings = json.dumps(yaml_settings)\n    data = json.loads(json_settings)\n    password = "passwd_"+str(hash(id[0][0-10]))\n    c = docker.Client(base_url=\'unix://var/run/docker.sock\')\n    if len(id) == 1:\n        if request.env.request_method == "PUT":\n            container = c.create_container(\'tutum/mongodb\', ports=[27017])\n            c.start(container, port_bindings={27017:(\'0.0.0.0\',)})\n            response = { "dashboard_url": container[\'Id\'] }\n            return response\n        if request.env.request_method == "DELETE":\n            try:\n                delete_db_stmt = "drop database if exists "+dbname+";"\n                delete_user_stmt = "drop user "+username+";"\n                cursor.execute(delete_db_stmt)\n                cursor.execute(delete_user_stmt)\n                response = {}\n                return response\n            except:\n                raise HTTP(410, "Gone")\n                response = {}\n                return response\n    if len(id) > 1:\n        if request.env.request_method == "PUT":\n            response = {"credentials": {"uri": url,"username": username,"password": password,"host": "www.rcsousa.com.br","port": 3306,"database": dbname}}\n            return response\n        if request.env.request_method == "DELETE":\n            response = {}\n            return response\n\nresponse._vars=response._caller(service_instances)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__module__'
+p12
+S"'requests.exceptions'"
+p13
+sS'__getslice__'
+p14
+S"<method-wrapper '__getslice__' of ConnectionError object>"
+p15
+sS'__str__'
+p16
+S"<method-wrapper '__str__' of ConnectionError object>"
+p17
+sS'__reduce__'
+p18
+S'<built-in method __reduce__ of ConnectionError object>'
+p19
+sS'__dict__'
+p20
+S'{}'
+p21
+sS'__sizeof__'
+p22
+S'<built-in method __sizeof__ of ConnectionError object>'
+p23
+sS'__weakref__'
+p24
+S'None'
+p25
+sS'__init__'
+p26
+S"<method-wrapper '__init__' of ConnectionError object>"
+p27
+sS'__setattr__'
+p28
+S"<method-wrapper '__setattr__' of ConnectionError object>"
+p29
+sS'__reduce_ex__'
+p30
+S'<built-in method __reduce_ex__ of ConnectionError object>'
+p31
+sS'__new__'
+p32
+S'<built-in method __new__ of type object>'
+p33
+sS'errno'
+p34
+S'None'
+p35
+sS'__format__'
+p36
+S'<built-in method __format__ of ConnectionError object>'
+p37
+sS'__class__'
+p38
+S"<class 'requests.exceptions.ConnectionError'>"
+p39
+sS'filename'
+p40
+S'None'
+p41
+sS'__doc__'
+p42
+S"'A Connection error occurred.'"
+p43
+sS'__getitem__'
+p44
+S"<method-wrapper '__getitem__' of ConnectionError object>"
+p45
+sS'__setstate__'
+p46
+S'<built-in method __setstate__ of ConnectionError object>'
+p47
+sS'__getattribute__'
+p48
+S"<method-wrapper '__getattribute__' of ConnectionError object>"
+p49
+sS'args'
+p50
+S'(MaxRetryError("UnixHTTPConnectionPool(host=\'loca...\'socket.error\'>: [Errno 13] Permission denied)",),)'
+p51
+sS'__subclasshook__'
+p52
+S'<built-in method __subclasshook__ of type object>'
+p53
+sS'__unicode__'
+p54
+S'<built-in method __unicode__ of ConnectionError object>'
+p55
+sS'strerror'
+p56
+S'None'
+p57
+sS'__delattr__'
+p58
+S"<method-wrapper '__delattr__' of ConnectionError object>"
+p59
+sS'__repr__'
+p60
+S"<method-wrapper '__repr__' of ConnectionError object>"
+p61
+sS'__hash__'
+p62
+S"<method-wrapper '__hash__' of ConnectionError object>"
+p63
+ssS'evalue'
+p64
+S"UnixHTTPConnectionPool(host='localhost', port=None): Max retries exceeded with url: /run/docker.sock/v1.9/containers/create (Caused by <class 'socket.error'>: [Errno 13] Permission denied)"
+p65
+sS'request'
+p66
+cgluon.html
+XML_unpickle
+p67
+(S's"K\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>custom_mongodb_broker</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>4558205c-991d-4348-a5e5-6f30ad53de8a</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>201.52.227.105</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>v2</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_custom_mongodb_broker</td><td style="vertical-align:top;">:</td><td><div>201.52.227.105-ded8552d-94e2-4605-86cd-83b9ca83a15f<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">CONTENT_LENGTH</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">CONTENT_TYPE</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">DOCUMENT_ROOT</td><td style="vertical-align:top;">:</td><td><div>/etc/nginx/html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>*/*</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip,deflate,sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8,pt;q=0.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_AUTHORIZATION</td><td style="vertical-align:top;">:</td><td><div>Basic cmNzb3VzYTpwYXNzd29yZA==</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CACHE_CONTROL</td><td style="vertical-align:top;">:</td><td><div>no-cache</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONTENT_LENGTH</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_custom_mongodb_broker=201.52.227.105-ded8552d-94e2-4605-86cd-83b9ca83a15f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>www.rcsousa.com.br</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ORIGIN</td><td style="vertical-align:top;">:</td><td><div>chrome-extension://fdmmgilgnpjigdojojpjoooidkmcomcm</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/custom_mongodb_broker/v2/service_instances/4558205c-991d-4348-a5e5-6f30ad53de8a</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>201.52.227.105</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>60160</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>PUT</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_URI</td><td style="vertical-align:top;">:</td><td><div>/custom_mongodb_broker/v2/service_instances/4558205c-991d-4348-a5e5-6f30ad53de8a</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>www.rcsousa.com.br</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>80</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>nginx/1.4.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">UWSGI_SCHEME</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/var/www/web2py/applications/custom_mongodb_broker/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/var/www/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">content_length</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">content_type</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">document_root</td><td style="vertical-align:top;">:</td><td><div>/etc/nginx/html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/var/www/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>*/*</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip,deflate,sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8,pt;q=0.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_authorization</td><td style="vertical-align:top;">:</td><td><div>Basic cmNzb3VzYTpwYXNzd29yZA==</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cache_control</td><td style="vertical-align:top;">:</td><td><div>no-cache</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_content_length</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_custom_mongodb_broker=201.52.227.105-ded8552d-94e2-4605-86cd-83b9ca83a15f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>www.rcsousa.com.br</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_origin</td><td style="vertical-align:top;">:</td><td><div>chrome-extension://fdmmgilgnpjigdojojpjoooidkmcomcm</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/custom_mongodb_broker/v2/service_instances/4558205c-991d-4348-a5e5-6f30ad53de8a</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>201.52.227.105</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>60160</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>PUT</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/custom_mongodb_broker/v2/service_instances/4558205c-991d-4348-a5e5-6f30ad53de8a</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>www.rcsousa.com.br</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>80</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>nginx/1.4.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi.node</td><td style="vertical-align:top;">:</td><td><div>dev-rcsousa-03</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi.version</td><td style="vertical-align:top;">:</td><td><div>1.9.20</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi_node</td><td style="vertical-align:top;">:</td><td><div>dev-rcsousa-03</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi_version</td><td style="vertical-align:top;">:</td><td><div>1.9.20</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/var/www/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.7.4-stable+timestamp.2013.10.14.15.16.29</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;wsgi_errors&#x27;, mode &#x27;w&#x27; at 0x1d21660&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;built-in function uwsgi_sendfile&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;uwsgi._Input object at 0x7f672b53c930&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;wsgi_errors&#x27;, mode &#x27;w&#x27; at 0x1d21660&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;built-in function uwsgi_sendfile&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;uwsgi._Input object at 0x7f672b53c930&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/var/www/web2py/applications/custom_mongodb_broker/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>service_instances</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/var/www/web2py/applications/custom_mongodb_broker/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/var/www/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/var/www/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>162.209.88.13</div></td></tr><tr><td><div>dev-rcsousa-03</div></td></tr><tr><td><div>10.208.146.205</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>www.rcsousa.com.br</div></td></tr><tr><td><div>2001:4801:7821:77:8ce5:6608:ff10:afc0</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.7.4-stable+timestamp.2013.10.14.15.16.29</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2014, 6, 23, 15, 50, 12, 347831)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div>4558205c-991d-4348-a5e5-6f30ad53de8a</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/custom_mongodb_broker/v2/service_instances/4558205c-991d-4348-a5e5-6f30ad53de8a</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2014, 6, 23, 15, 50, 12, 347912)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uuid</td><td style="vertical-align:top;">:</td><td><div>custom_mongodb_broker/201.52.227.105.2014-06-23.15-50-12.2e22589f-9a4c-4444-81a7-52a9a62676cf</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x1dffc50&gt;</div></td></tr></table></div>'
+tRp68
+sS'frames'
+p69
+(lp70
+(dp71
+S'file'
+p72
+S'/var/www/web2py/gluon/restricted.py'
+p73
+sS'dump'
+p74
+(dp75
+S'environment'
+p76
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, 'CENTER': <class 'gluon.html.CENTER'>, ...}"
+p77
+sS'ccode'
+p78
+S'<code object <module> at 0x20b8a80, file "/var/w...custom_mongodb_broker/controllers/v2.py", line 2>'
+p79
+ssS'lnum'
+p80
+I217
+sS'lines'
+p81
+(dp82
+I212
+S'    try:'
+p83
+sI213
+S'        if isinstance(code, types.CodeType):'
+p84
+sI214
+S'            ccode = code'
+p85
+sI215
+S'        else:'
+p86
+sI216
+S'            ccode = compile2(code, layer)'
+p87
+sI217
+S'        exec ccode in environment'
+p88
+sI218
+S'    except HTTP:'
+p89
+sI219
+S'        raise'
+p90
+sI220
+S'    except RestrictedError:'
+p91
+sI221
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p92
+ssS'call'
+p93
+S"(code='# coding: utf8\\nauth.settings.allow_basic_login =...sponse._vars=response._caller(service_instances)\\n', environment={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, 'CENTER': <class 'gluon.html.CENTER'>, ...}, layer='/var/www/web2py/applications/custom_mongodb_broker/controllers/v2.py')"
+p94
+sS'func'
+p95
+S'restricted'
+p96
+sa(dp97
+g72
+S'/var/www/web2py/applications/custom_mongodb_broker/controllers/v2.py'
+p98
+sg74
+(dp99
+sg80
+I50
+sg81
+(dp100
+I39
+S'                raise HTTP(410, "Gone")'
+p101
+sI40
+S'                response = {}'
+p102
+sI41
+S'                return response'
+p103
+sI42
+S'    if len(id) > 1:'
+p104
+sI43
+S'        if request.env.request_method == "PUT":'
+p105
+sI44
+S'            response = {"credentials": {"uri": url,"username": username,"password": password,"host": "www.rcsousa.com.br","port": 3306,"database": dbname}}'
+p106
+sI45
+S'            return response'
+p107
+sI46
+S'        if request.env.request_method == "DELETE":'
+p108
+sI47
+S'            response = {}'
+p109
+sI48
+S'            return response'
+p110
+ssg93
+S'()'
+p111
+sg95
+S'<module>'
+p112
+sa(dp113
+g72
+S'/var/www/web2py/gluon/globals.py'
+p114
+sg74
+(dp115
+S'self'
+p116
+S'undefined'
+p117
+sS'f'
+S'<function service_instances>'
+p118
+ssg80
+I372
+sg81
+(dp119
+I367
+S'        self.menu = []             # used by the default view layout'
+p120
+sI368
+S'        self.files = []            # used by web2py_ajax.html'
+p121
+sI369
+S'        self.generic_patterns = []  # patterns to allow generic views'
+p122
+sI370
+S"        self.delimiters = ('{{', '}}')"
+p123
+sI371
+S'        self._vars = None'
+p124
+sI372
+S'        self._caller = lambda f: f()'
+p125
+sI373
+S'        self._view_environment = None'
+p126
+sI374
+S'        self._custom_commit = None'
+p127
+sI375
+S'        self._custom_rollback = None'
+p128
+sI376
+S''
+ssg93
+S'(f=<function service_instances>)'
+p129
+sg95
+S'<lambda>'
+p130
+sa(dp131
+g72
+S'/var/www/web2py/gluon/tools.py'
+p132
+sg74
+(dp133
+S'action'
+p134
+S'<function service_instances>'
+p135
+sS'a'
+S'()'
+p136
+sS'b'
+g21
+ssg80
+I3239
+sg81
+(dp137
+I3234
+S'                    flag = condition'
+p138
+sI3235
+S'                if not flag:'
+p139
+sI3236
+S'                    current.session.flash = self.messages.access_denied'
+p140
+sI3237
+S'                    return call_or_redirect('
+p141
+sI3238
+S'                        self.settings.on_failed_authorization)'
+p142
+sI3239
+S'                return action(*a, **b)'
+p143
+sI3240
+S'            f.__doc__ = action.__doc__'
+p144
+sI3241
+S'            f.__name__ = action.__name__'
+p145
+sI3242
+S'            f.__dict__.update(action.__dict__)'
+p146
+sI3243
+S'            return f'
+p147
+ssg93
+S'(*a=(), **b={})'
+p148
+sg95
+S'f'
+sa(dp149
+g72
+S'/var/www/web2py/applications/custom_mongodb_broker/controllers/v2.py'
+p150
+sg74
+(dp151
+S'c'
+S'<docker.client.Client object>'
+p152
+sS'container'
+p153
+g117
+sS'c.create_container'
+p154
+S'<bound method Client.create_container of <docker.client.Client object>>'
+p155
+sS'ports'
+p156
+g117
+ssg80
+I26
+sg81
+(dp157
+I21
+S'    data = json.loads(json_settings)'
+p158
+sI22
+S'    password = "passwd_"+str(hash(id[0][0-10]))'
+p159
+sI23
+S"    c = docker.Client(base_url='unix://var/run/docker.sock')"
+p160
+sI24
+S'    if len(id) == 1:'
+p161
+sI25
+S'        if request.env.request_method == "PUT":'
+p162
+sI26
+S"            container = c.create_container('tutum/mongodb', ports=[27017])"
+p163
+sI27
+S"            c.start(container, port_bindings={27017:('0.0.0.0',)})"
+p164
+sI28
+S'            response = { "dashboard_url": container[\'Id\'] }'
+p165
+sI29
+S'            return response'
+p166
+sI30
+S'        if request.env.request_method == "DELETE":'
+p167
+ssg93
+S'()'
+p168
+sg95
+S'service_instances'
+p169
+sa(dp170
+g72
+S'/usr/lib/python2.6/site-packages/docker/client.py'
+p171
+sg74
+(dp172
+S'self.create_container_from_config'
+p173
+S'<bound method Client.create_container_from_config of <docker.client.Client object>>'
+p174
+sS'self'
+p175
+S'<docker.client.Client object>'
+p176
+sS'config'
+p177
+S"{'AttachStderr': True, 'AttachStdin': False, 'AttachStdout': True, 'Cmd': None, 'CpuShares': None, 'Dns': None, 'Domainname': None, 'Entrypoint': None, 'Env': None, 'ExposedPorts': {'27017/tcp': {}}, ...}"
+p178
+sS'name'
+p179
+S'None'
+p180
+ssg80
+I454
+sg81
+(dp181
+I449
+S'        config = self._container_config('
+p182
+sI450
+S'            image, command, hostname, user, detach, stdin_open, tty, mem_limit,'
+p183
+sI451
+S'            ports, environment, dns, volumes, volumes_from, network_disabled,'
+p184
+sI452
+S'            entrypoint, cpu_shares, working_dir, domainname'
+p185
+sI453
+S'        )'
+p186
+sI454
+S'        return self.create_container_from_config(config, name)'
+p187
+sI455
+S''
+sI456
+S'    def create_container_from_config(self, config, name=None):'
+p188
+sI457
+S'        u = self._url("/containers/create")'
+p189
+sI458
+S'        params = {'
+p190
+ssg93
+S"(self=<docker.client.Client object>, image='tutum/mongodb', command=None, hostname=None, user=None, detach=False, stdin_open=False, tty=False, mem_limit=0, ports=[27017], environment=None, dns=None, volumes=None, volumes_from=None, network_disabled=False, name=None, entrypoint=None, cpu_shares=None, working_dir=None, domainname=None)"
+p191
+sg95
+S'create_container'
+p192
+sa(dp193
+g72
+S'/usr/lib/python2.6/site-packages/docker/client.py'
+p194
+sg74
+(dp195
+S'res'
+p196
+g117
+sS'self'
+p197
+S'<docker.client.Client object>'
+p198
+sS'data'
+p199
+g117
+sS'u'
+S"'http+unix://var/run/docker.sock/v1.9/containers/create'"
+p200
+sS'self._post_json'
+p201
+S'<bound method Client._post_json of <docker.client.Client object>>'
+p202
+sS'params'
+p203
+S"{'name': None}"
+p204
+sS'config'
+p205
+S"{'AttachStderr': True, 'AttachStdin': False, 'AttachStdout': True, 'Cmd': None, 'CpuShares': None, 'Dns': None, 'Domainname': None, 'Entrypoint': None, 'Env': None, 'ExposedPorts': {'27017/tcp': {}}, ...}"
+p206
+ssg80
+I461
+sg81
+(dp207
+I456
+S'    def create_container_from_config(self, config, name=None):'
+p208
+sI457
+S'        u = self._url("/containers/create")'
+p209
+sI458
+S'        params = {'
+p210
+sI459
+S"            'name': name"
+p211
+sI460
+S'        }'
+p212
+sI461
+S'        res = self._post_json(u, data=config, params=params)'
+p213
+sI462
+S'        return self._result(res, True)'
+p214
+sI463
+S''
+sI464
+S'    def diff(self, container):'
+p215
+sI465
+S'        if isinstance(container, dict):'
+p216
+ssg93
+S"(self=<docker.client.Client object>, config={'AttachStderr': True, 'AttachStdin': False, 'AttachStdout': True, 'Cmd': None, 'CpuShares': None, 'Dns': None, 'Domainname': None, 'Entrypoint': None, 'Env': None, 'ExposedPorts': {'27017/tcp': {}}, ...}, name=None)"
+p217
+sg95
+S'create_container_from_config'
+p218
+sa(dp219
+g72
+S'/usr/lib/python2.6/site-packages/docker/client.py'
+p220
+sg74
+(dp221
+S'url'
+p222
+S"'http+unix://var/run/docker.sock/v1.9/containers/create'"
+p223
+sS'self'
+p224
+S'<docker.client.Client object>'
+p225
+sS'json.dumps'
+p226
+S'<function dumps>'
+p227
+sS'self._post'
+p228
+S'<bound method Client._post of <docker.client.Client object>>'
+p229
+sS'kwargs'
+p230
+S"{'headers': {'Content-Type': 'application/json'}, 'params': {'name': None}}"
+p231
+sS'data'
+p232
+S"{'AttachStderr': True, 'AttachStdin': False, 'AttachStdout': True, 'Cmd': None, 'CpuShares': None, 'Dns': None, 'Domainname': None, 'Entrypoint': None, 'Env': None, 'ExposedPorts': {'27017/tcp': {}}, ...}"
+p233
+sS'global json'
+p234
+S"<module 'json' from '/usr/lib64/python2.6/json/__init__.pyc'>"
+p235
+sS'data2'
+p236
+S"{'AttachStderr': True, 'AttachStdin': False, 'AttachStdout': True, 'ExposedPorts': {'27017/tcp': {}}, 'Image': 'tutum/mongodb', 'Memory': 0, 'NetworkDisabled': False, 'OpenStdin': False, 'StdinOnce': False, 'Tty': False}"
+p237
+ssg80
+I210
+sg81
+(dp238
+I205
+S'                    data2[k] = v'
+p239
+sI206
+S''
+sI207
+S"        if 'headers' not in kwargs:"
+p240
+sI208
+S"            kwargs['headers'] = {}"
+p241
+sI209
+S"        kwargs['headers']['Content-Type'] = 'application/json'"
+p242
+sI210
+S'        return self._post(url, data=json.dumps(data2), **kwargs)'
+p243
+sI211
+S''
+sI212
+S'    def _attach_params(self, override=None):'
+p244
+sI213
+S'        return override or {'
+p245
+sI214
+S"            'stdout': 1,"
+p246
+ssg93
+S"(self=<docker.client.Client object>, url='http+unix://var/run/docker.sock/v1.9/containers/create', data={'AttachStderr': True, 'AttachStdin': False, 'AttachStdout': True, 'Cmd': None, 'CpuShares': None, 'Dns': None, 'Domainname': None, 'Entrypoint': None, 'Env': None, 'ExposedPorts': {'27017/tcp': {}}, ...}, **kwargs={'headers': {'Content-Type': 'application/json'}, 'params': {'name': None}})"
+p247
+sg95
+S'_post_json'
+p248
+sa(dp249
+g72
+S'/usr/lib/python2.6/site-packages/docker/client.py'
+p250
+sg74
+(dp251
+S'url'
+p252
+S"'http+unix://var/run/docker.sock/v1.9/containers/create'"
+p253
+sS'self'
+p254
+S'<docker.client.Client object>'
+p255
+sS'self.post'
+p256
+S'<bound method Client.post of <docker.client.Client object>>'
+p257
+sS'self._set_request_timeout'
+p258
+S'<bound method Client._set_request_timeout of <docker.client.Client object>>'
+p259
+sS'kwargs'
+p260
+S'{\'data\': \'{"Tty": false, "NetworkDisabled": false, "Image"...: true, "AttachStdout": true, "OpenStdin": false}\', \'headers\': {\'Content-Type\': \'application/json\'}, \'params\': {\'name\': None}, \'timeout\': 60}'
+p261
+ssg80
+I99
+sg81
+(dp262
+I96
+S'        return kwargs'
+p263
+sI97
+S''
+sI98
+S'    def _post(self, url, **kwargs):'
+p264
+sI99
+S'        return self.post(url, **self._set_request_timeout(kwargs))'
+p265
+sI100
+S''
+sI101
+S'    def _get(self, url, **kwargs):'
+p266
+sI102
+S'        return self.get(url, **self._set_request_timeout(kwargs))'
+p267
+sI103
+S''
+sI94
+S'        parameter, if not already present."""'
+p268
+sI95
+S"        kwargs.setdefault('timeout', self._timeout)"
+p269
+ssg93
+S'(self=<docker.client.Client object>, url=\'http+unix://var/run/docker.sock/v1.9/containers/create\', **kwargs={\'data\': \'{"Tty": false, "NetworkDisabled": false, "Image"...: true, "AttachStdout": true, "OpenStdin": false}\', \'headers\': {\'Content-Type\': \'application/json\'}, \'params\': {\'name\': None}, \'timeout\': 60})'
+p270
+sg95
+S'_post'
+p271
+sa(dp272
+g72
+S'/usr/lib/python2.6/site-packages/requests/sessions.py'
+p273
+sg74
+(dp274
+S'url'
+p275
+S"'http+unix://var/run/docker.sock/v1.9/containers/create'"
+p276
+sS'self'
+p277
+S'<docker.client.Client object>'
+p278
+sS'self.request'
+p279
+S'<bound method Client.request of <docker.client.Client object>>'
+p280
+sS'data'
+p281
+S'\'{"Tty": false, "NetworkDisabled": false, "Image"...: true, "AttachStdout": true, "OpenStdin": false}\''
+p282
+sS'kwargs'
+p283
+S"{'headers': {'Content-Type': 'application/json'}, 'params': {'name': None}, 'timeout': 60}"
+p284
+ssg80
+I425
+sg81
+(dp285
+I420
+S'        :param url: URL for the new :class:`Request` object.'
+p286
+sI421
+S'        :param data: (optional) Dictionary, bytes, or file-like object to send in the body of the :class:`Request`.'
+p287
+sI422
+S'        :param \\*\\*kwargs: Optional arguments that ``request`` takes.'
+p288
+sI423
+S'        """'
+p289
+sI424
+S''
+sI425
+S"        return self.request('POST', url, data=data, **kwargs)"
+p290
+sI426
+S''
+sI427
+S'    def put(self, url, data=None, **kwargs):'
+p291
+sI428
+S'        """Sends a PUT request. Returns :class:`Response` object.'
+p292
+sI429
+S''
+ssg93
+S'(self=<docker.client.Client object>, url=\'http+unix://var/run/docker.sock/v1.9/containers/create\', data=\'{"Tty": false, "NetworkDisabled": false, "Image"...: true, "AttachStdout": true, "OpenStdin": false}\', **kwargs={\'headers\': {\'Content-Type\': \'application/json\'}, \'params\': {\'name\': None}, \'timeout\': 60})'
+p293
+sg95
+S'post'
+p294
+sa(dp295
+g72
+S'/usr/lib/python2.6/site-packages/requests/sessions.py'
+p296
+sg74
+(dp297
+S'resp'
+p298
+g117
+sS'send_kwargs'
+p299
+S"{'allow_redirects': True, 'cert': None, 'proxies': OrderedDict(), 'stream': False, 'timeout': 60, 'verify': True}"
+p300
+sS'prep'
+p301
+S'<PreparedRequest [POST]>'
+p302
+sS'self'
+p303
+S'<docker.client.Client object>'
+p304
+sS'self.send'
+p305
+S'<bound method Client.send of <docker.client.Client object>>'
+p306
+ssg80
+I383
+sg81
+(dp307
+I384
+S''
+sI385
+S'        return resp'
+p308
+sI386
+S''
+sI387
+S'    def get(self, url, **kwargs):'
+p309
+sI378
+S"            'verify': verify,"
+p310
+sI379
+S"            'cert': cert,"
+p311
+sI380
+S"            'proxies': proxies,"
+p312
+sI381
+S"            'allow_redirects': allow_redirects,"
+p313
+sI382
+S'        }'
+p314
+sI383
+S'        resp = self.send(prep, **send_kwargs)'
+p315
+ssg93
+S'(self=<docker.client.Client object>, method=\'POST\', url=\'http+unix://var/run/docker.sock/v1.9/containers/create\', params={\'name\': None}, data=\'{"Tty": false, "NetworkDisabled": false, "Image"...: true, "AttachStdout": true, "OpenStdin": false}\', headers={\'Content-Type\': \'application/json\'}, cookies=None, files=None, auth=None, timeout=60, allow_redirects=True, proxies=OrderedDict(), hooks=None, stream=False, verify=True, cert=None)'
+p316
+sg95
+g66
+sa(dp317
+g72
+S'/usr/lib/python2.6/site-packages/requests/sessions.py'
+p318
+sg74
+(dp319
+S'request'
+p320
+S'<PreparedRequest [POST]>'
+p321
+sS'adapter'
+p322
+S'<docker.unixconn.unixconn.UnixAdapter object>'
+p323
+sS'r'
+g117
+sS'adapter.send'
+p324
+S'<bound method UnixAdapter.send of <docker.unixconn.unixconn.UnixAdapter object>>'
+p325
+sS'kwargs'
+p326
+S"{'cert': None, 'proxies': OrderedDict(), 'stream': False, 'timeout': 60, 'verify': True}"
+p327
+ssg80
+I486
+sg81
+(dp328
+I481
+S'        adapter = self.get_adapter(url=request.url)'
+p329
+sI482
+S''
+sI483
+S'        # Start time (approximately) of the request'
+p330
+sI484
+S'        start = datetime.utcnow()'
+p331
+sI485
+S'        # Send the request'
+p332
+sI486
+S'        r = adapter.send(request, **kwargs)'
+p333
+sI487
+S'        # Total elapsed time of the request (approximately)'
+p334
+sI488
+S'        r.elapsed = datetime.utcnow() - start'
+p335
+sI489
+S''
+sI490
+S'        # Response manipulation hooks'
+p336
+ssg93
+S"(self=<docker.client.Client object>, request=<PreparedRequest [POST]>, **kwargs={'cert': None, 'proxies': OrderedDict(), 'stream': False, 'timeout': 60, 'verify': True})"
+p337
+sg95
+S'send'
+p338
+sa(dp339
+g72
+S'/usr/lib/python2.6/site-packages/requests/adapters.py'
+p340
+sg74
+(dp341
+S'global ConnectionError'
+p342
+S"<class 'requests.exceptions.ConnectionError'>"
+p343
+sS'e'
+S'MaxRetryError("UnixHTTPConnectionPool(host=\'loca...\'socket.error\'>: [Errno 13] Permission denied)",)'
+p344
+ssg80
+I378
+sg81
+(dp345
+I373
+S''
+sI374
+S'        except socket.error as sockerr:'
+p346
+sI375
+S'            raise ConnectionError(sockerr)'
+p347
+sI376
+S''
+sI377
+S'        except MaxRetryError as e:'
+p348
+sI378
+S'            raise ConnectionError(e)'
+p349
+sI379
+S''
+sI380
+S'        except _ProxyError as e:'
+p350
+sI381
+S'            raise ProxyError(e)'
+p351
+sI382
+S''
+ssg93
+S'(self=<docker.unixconn.unixconn.UnixAdapter object>, request=<PreparedRequest [POST]>, stream=False, timeout=<requests.packages.urllib3.util.Timeout object>, verify=True, cert=None, proxies=OrderedDict())'
+p352
+sg95
+g338
+sasS'pyver'
+p353
+S'Python 2.6.6: /usr/bin/uwsgi (prefix: /usr)'
+p354
+sS'session'
+p355
+g67
+(S's\xf1\x08\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">auth</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">expiration</td><td style="vertical-align:top;">:</td><td><div>3600</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">hmac_key</td><td style="vertical-align:top;">:</td><td><div>b94fecd7-ac68-4f0a-b63f-0323fa35cf50</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_visit</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2014, 6, 23, 15, 50, 12, 347831)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">email</td><td style="vertical-align:top;">:</td><td><div>ricardo.c.sousa@gmail.com</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">first_name</td><td style="vertical-align:top;">:</td><td><div>ricardo</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">id</td><td style="vertical-align:top;">:</td><td><div>1L</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_name</td><td style="vertical-align:top;">:</td><td><div>sousa</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_id</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">reset_password_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">username</td><td style="vertical-align:top;">:</td><td><div>rcsousa</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user_groups</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">1</td><td style="vertical-align:top;">:</td><td><div>user_1</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr></table></div>'
+tRp356
+sS'etype'
+p357
+S"<class 'requests.exceptions.ConnectionError'>"
+p358
+sS'date'
+p359
+S'Mon Jun 23 15:50:13 2014'
+p360
+sS'response'
+p361
+g67
+(S's\xd91\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x1e05998&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_custom_mongodb_broker</td><td style="vertical-align:top;">:</td><td><div>201.52.227.105-ded8552d-94e2-4605-86cd-83b9ca83a15f<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">google_analytics_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">logo</td><td style="vertical-align:top;">:</td><td><div><a class="brand" data-w2p_disable_with="default" href="http://www.web2py.com/"><b>web<span>2</span>py</b>&trade;&nbsp;</a></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>Home</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/custom_mongodb_broker/default/index</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div><span class="highlighted">web2py</span></div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>My Sites</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/site</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>This App</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/design/custom_mongodb_broker</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Controller&#x27;&gt;, False, &#x27;/admin/default/edit/custom_mongodb_broker/controllers/v2.py&#x27;), (&lt;lazyT &#x27;View&#x27;&gt;, False, &#x27;/admin/default/edit/custom_mongodb_broker/views/v2/service_instances.html&#x27;), (&lt;lazyT &#x27;Layout&#x27;&gt;, False, &#x27;/admin/default/edit/custom_mongodb_broker/views/layout.html&#x27;), (&lt;lazyT &#x27;Stylesheet&#x27;&gt;, False, &#x27;/admin/default/edit/custom_mongodb_broker/static/css/web2py.css&#x27;), (&lt;lazyT &#x27;DB Model&#x27;&gt;, False, &#x27;/admin/default/edit/custom_mongodb_broker/models/db.py&#x27;), (&lt;lazyT &#x27;Menu Model&#x27;&gt;, False, &#x27;/admin/default/edit/custom_mongodb_broker/models/menu.py&#x27;), (&lt;lazyT &#x27;Database&#x27;&gt;, False, &#x27;/custom_mongodb_broker/appadmin/index&#x27;), (&lt;lazyT &#x27;Errors&#x27;&gt;, False, &#x27;/admin/default/errors/custom_mongodb_broker&#x27;), (&lt;lazyT &#x27;About&#x27;&gt;, False, &#x27;/admin/default/about/custom_mongodb_broker&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>web2py.com</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Download&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/download&#x27;), (&lt;lazyT &#x27;Support&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/support&#x27;), (&lt;lazyT &#x27;Demo&#x27;&gt;, False, &#x27;http://web2py.com/demo_admin&#x27;), (&lt;lazyT &#x27;Quick Examples&#x27;&gt;, False, &#x27;http://web2py.com/examples/default/examples&#x27;), (&lt;lazyT &#x27;FAQ&#x27;&gt;, False, &#x27;http://web2py.com/AlterEgo&#x27;), (&lt;lazyT &#x27;Videos&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/videos/&#x27;), (&lt;lazyT &#x27;Free Applications&#x27;&gt;, False, &#x27;http://web2py.com/appliances&#x27;), (&lt;lazyT &#x27;Plugins&#x27;&gt;, False, &#x27;http://web2py.com/plugins&#x27;), (&lt;lazyT &#x27;Layouts&#x27;&gt;, False, &#x27;http://web2py.com/layouts&#x27;), (&lt;lazyT &#x27;Recipes&#x27;&gt;, False, &#x27;http://web2pyslices.com/&#x27;), (&lt;lazyT &#x27;Semantic&#x27;&gt;, False, &#x27;http://web2py.com/semantic&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Documentation</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Preface&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/00&#x27;), (&lt;lazyT &#x27;Introduction&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/01&#x27;), (&lt;lazyT &#x27;Python&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/02&#x27;), (&lt;lazyT &#x27;Overview&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/03&#x27;), (&lt;lazyT &#x27;The Core&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/04&#x27;), (&lt;lazyT &#x27;The Views&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/05&#x27;), (&lt;lazyT &#x27;Database&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/06&#x27;), (&lt;lazyT &#x27;Forms and Validators&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/07&#x27;), (&lt;lazyT &#x27;Email and SMS&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/08&#x27;), (&lt;lazyT &#x27;Access Control&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/09&#x27;), (&lt;lazyT &#x27;Services&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/10&#x27;), (&lt;lazyT &#x27;Ajax Recipes&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/11&#x27;), (&lt;lazyT &#x27;Components and Plugins&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/12&#x27;), (&lt;lazyT &#x27;Deployment Recipes&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/13&#x27;), (&lt;lazyT &#x27;Other Recipes&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/14&#x27;), (&lt;lazyT &#x27;Buy this book&#x27;&gt;, False, &#x27;http://stores.lulu.com/web2py&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Community</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>None</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Groups&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/usergroups&#x27;), (&lt;lazyT &#x27;Twitter&#x27;&gt;, False, &#x27;http://twitter.com/web2py&#x27;), (&lt;lazyT &#x27;Live Chat&#x27;&gt;, False, &#x27;http://webchat.freenode.net/?channels=web2py&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Plugins</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>None</div></td></tr><tr><td><div>[(&#x27;plugin_wiki&#x27;, False, &#x27;http://web2py.com/examples/default/download&#x27;), (&lt;lazyT &#x27;Other Plugins&#x27;&gt;, False, &#x27;http://web2py.com/plugins&#x27;), (&lt;lazyT &#x27;Layout Plugins&#x27;&gt;, False, &#x27;http://web2py.com/layouts&#x27;)]</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">author</td><td style="vertical-align:top;">:</td><td><div>Your Name &lt;you@example.com&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">description</td><td style="vertical-align:top;">:</td><td><div>a cool new app</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generator</td><td style="vertical-align:top;">:</td><td><div>Web2py Web Framework</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">keywords</td><td style="vertical-align:top;">:</td><td><div>web2py, python, framework</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^v2/\\w+\\.py$</div></td></tr><tr><td><div>^v2/service_instances/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>201.52.227.105</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_key</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_custom_mongodb_broker</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/var/www/web2py/applications/custom_mongodb_broker/sessions/201.52.227.105-f8a6de84-707b-4418-93e7-19abf3e7cc81</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>2810c15a479d170bbf15bef0907a7f09</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>201.52.227.105-f8a6de84-707b-4418-93e7-19abf3e7cc81</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_custom_mongodb_broker</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>custom_mongodb_broker</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">subtitle</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">title</td><td style="vertical-align:top;">:</td><td><div>Custom Mongodb Broker</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>v2/service_instances.html</div></td></tr></table></div>'
+tRp362
+sS'locals'
+p363
+(dp364
+S'proxies'
+p365
+S'OrderedDict()'
+p366
+sS'e'
+S'MaxRetryError("UnixHTTPConnectionPool(host=\'loca...\'socket.error\'>: [Errno 13] Permission denied)",)'
+p367
+sS'stream'
+p368
+S'False'
+p369
+sS'url'
+p370
+S"'/run/docker.sock/v1.9/containers/create'"
+p371
+sS'verify'
+p372
+S'True'
+p373
+sS'self'
+p374
+S'<docker.unixconn.unixconn.UnixAdapter object>'
+p375
+sg66
+S'<PreparedRequest [POST]>'
+p376
+sS'cert'
+p377
+S'None'
+p378
+sS'timeout'
+p379
+S'<requests.packages.urllib3.util.Timeout object>'
+p380
+sS'chunked'
+p381
+g369
+sS'conn'
+p382
+S'<docker.unixconn.unixconn.UnixHTTPConnectionPool object>'
+p383
+sssS'traceback'
+p384
+S'Traceback (most recent call last):\n  File "/var/www/web2py/gluon/restricted.py", line 217, in restricted\n    exec ccode in environment\n  File "/var/www/web2py/applications/custom_mongodb_broker/controllers/v2.py", line 50, in <module>\n  File "/var/www/web2py/gluon/globals.py", line 372, in <lambda>\n    self._caller = lambda f: f()\n  File "/var/www/web2py/gluon/tools.py", line 3239, in f\n    return action(*a, **b)\n  File "/var/www/web2py/applications/custom_mongodb_broker/controllers/v2.py", line 26, in service_instances\n    container = c.create_container(\'tutum/mongodb\', ports=[27017])\n  File "/usr/lib/python2.6/site-packages/docker/client.py", line 454, in create_container\n    return self.create_container_from_config(config, name)\n  File "/usr/lib/python2.6/site-packages/docker/client.py", line 461, in create_container_from_config\n    res = self._post_json(u, data=config, params=params)\n  File "/usr/lib/python2.6/site-packages/docker/client.py", line 210, in _post_json\n    return self._post(url, data=json.dumps(data2), **kwargs)\n  File "/usr/lib/python2.6/site-packages/docker/client.py", line 99, in _post\n    return self.post(url, **self._set_request_timeout(kwargs))\n  File "/usr/lib/python2.6/site-packages/requests/sessions.py", line 425, in post\n    return self.request(\'POST\', url, data=data, **kwargs)\n  File "/usr/lib/python2.6/site-packages/requests/sessions.py", line 383, in request\n    resp = self.send(prep, **send_kwargs)\n  File "/usr/lib/python2.6/site-packages/requests/sessions.py", line 486, in send\n    r = adapter.send(request, **kwargs)\n  File "/usr/lib/python2.6/site-packages/requests/adapters.py", line 378, in send\n    raise ConnectionError(e)\nConnectionError: UnixHTTPConnectionPool(host=\'localhost\', port=None): Max retries exceeded with url: /run/docker.sock/v1.9/containers/create (Caused by <class \'socket.error\'>: [Errno 13] Permission denied)\n'
+p385
+s.
