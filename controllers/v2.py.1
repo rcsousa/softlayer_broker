@@ -15,19 +15,19 @@ def catalog():
 def test_sco():
     import uuid, os, yaml, json, docker, requests
     id = request.args
-    with open('/settings_sco.yml', 'r') as f:
-        yaml_settings = yaml.load(f)
-    json_settings = json.dumps(yaml_settings)
-    data = json.loads(json_settings)
-    sco_api_url = data['pattern']['api_ep'][0]['url']
-    sco_api_user = data['pattern']['api_ep'][0]['user']
-    sco_api_password = data['pattern']['api_ep'][0]['password']
-    sco_api_headers = data['pattern']['api_ep'][0]['headers']
-    with open('/sco_pattern.json') as json_content:
-        build_content_load = json.load(json_content)
-        build_content = json.dumps(build_content_load)
-    r = requests.post(sco_api_url+'/resources/virtualSystems', verify=False, auth=(sco_api_user, sco_api_password), headers=sco_api_headers, data=build_content)
-    return r.text
+#    with open('/settings_sco.yml', 'r') as f:
+#        yaml_settings = yaml.load(f)
+#    json_settings = json.dumps(yaml_settings)
+#    data = json.loads(json_settings)
+#    sco_api_url = data['pattern']['api_ep'][0]['url']
+#    sco_api_user = data['pattern']['api_ep'][0]['user']
+#    sco_api_password = data['pattern']['api_ep'][0]['password']
+#    sco_api_headers = data['pattern']['api_ep'][0]['headers']
+#    with open('/sco_pattern.json') as json_content:
+#        build_content_load = json.load(json_content)
+#        build_content = json.dumps(build_content_load)
+#    r = requests.post(sco_api_url+'/resources/virtualSystems', verify=False, auth=(sco_api_user, sco_api_password), headers=sco_api_headers, data=build_content)
+    return id
 
 
 @auth.requires_login()
@@ -64,9 +64,9 @@ def service_instances():
         if request.env.request_method == "DELETE":
             try:
             	r = requests.get(sco_api_url+'/resources/virtualSystems', verify=False, auth=(sco_api_user, sco_api_password), headers=sco_api_headers)
-		for i in r:
-			if i['name'] == id:
-				sco_id = i['id']
+		for i in r.json():
+			if str(i['name']) == str(id):
+				sco_id = str(i['id'])
 				delete = requests.delete(sco_api_url+'/resources/virtualSystems/'+sco_id, verify=False, auth=(sco_api_user, sco_api_password), headers=sco_api_headers)
                 		response = {}
                 		return response

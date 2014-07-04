@@ -1,0 +1,488 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.IOError'> [Errno 13] Permission denied: '/sco_pattern.json'"
+p3
+sS'layer'
+p4
+S'/var/www/web2py/applications/sco_broker/controllers/v2.py'
+p5
+sS'code'
+p6
+S'# coding: utf8\nauth.settings.allow_basic_login = True\n@auth.requires_login()\ndef catalog():\n    from gluon.tools import Auth\n    import yaml\n    import json\n    with open(\'/settings_sco.yml\', \'r\') as f:\n        yaml_settings = yaml.load(f)\n    json_settings = json.dumps(yaml_settings)\n    data = json.loads(json_settings)\n    return data[\'catalog\']\n\n@auth.requires_login()\ndef test_sco():\n    import uuid, os, yaml, json, docker, requests\n    id = request.args\n    with open(\'/settings_sco.yml\', \'r\') as f:\n        yaml_settings = yaml.load(f)\n    json_settings = json.dumps(yaml_settings)\n    data = json.loads(json_settings)\n    sco_api_url = data[\'pattern\'][\'api_ep\'][0][\'url\']\n    sco_api_user = data[\'pattern\'][\'api_ep\'][0][\'user\']\n    sco_api_password = data[\'pattern\'][\'api_ep\'][0][\'password\']\n    sco_api_headers = data[\'pattern\'][\'api_ep\'][0][\'headers\']\n    with open(\'/sco_pattern.json\') as json_content:\n        build_content_load = json.load(json_content)\n        build_content = json.dumps(build_content_load)\n    r = requests.post(sco_api_url+\'/resources/virtualSystems\', verify=False, auth=(sco_api_user, sco_api_password), headers=sco_api_headers, data=build_content)\n    return r.text\n\n\n@auth.requires_login()\ndef service_instances():\n    import uuid, os, yaml, json, docker, requests\n    id = request.args\n    with open(\'/settings_sco.yml\', \'r\') as f:\n        yaml_settings = yaml.load(f)\n    json_settings = json.dumps(yaml_settings)\n    data = json.loads(json_settings)\n    sco_api_url = data[\'pattern\'][\'api_ep\'][0][\'url\']\n    sco_api_user = data[\'pattern\'][\'api_ep\'][0][\'user\']\n    sco_api_password = data[\'pattern\'][\'api_ep\'][0][\'password\']\n    sco_api_headers = data[\'pattern\'][\'api_ep\'][0][\'headers\']\n    with open(\'/sco_pattern.json\', \'r\') as json_content_read:\n        build_content_read = json.load(json_content_read)\n\tjson_content_read.close()\n\n    build_content_read[\'name\'] = id\n\n    with open(\'/sco_pattern.json\', \'w\') as json_content_write:\n        json_content_write.write(json.dumps(build_content_read))\n\tjson_content_write.close()\n\n    with open(\'/sco_pattern.json\') as json_content:\n\tbuild_content_load = json.load(json_content)\n        build_content = json.dumps(build_content_load)\n\n    if len(id) == 1:\n        if request.env.request_method == "PUT":\n            r = requests.post(sco_api_url+\'/resources/virtualSystems\', verify=False, auth=(sco_api_user, sco_api_password), headers=sco_api_headers, data=build_content)\n            response = { "dashboard_url": id }\n            return response\n        if request.env.request_method == "DELETE":\n            try:\n                response = {}\n                return response\n            except:\n                raise HTTP(410, "Gone")\n                response = {}\n                return response\n\n#    if len(id) > 1:\n#        if request.env.request_method == "PUT":\n#            list = []\n#            containers_l = c.containers()\n#            for x in containers_l:\n#                cont_deep = c.inspect_container(x[\'Id\'])\n#                list.append(cont_deep)\n#            for y in list:\n#                if y[\'Config\'][\'Hostname\'] == host:\n#                    IpAddr = y[\'NetworkSettings\'][\'IPAddress\']\n#                    Port = y[\'NetworkSettings\'][\'Ports\']\n#            response = {"credentials": {"password": password,"host": IpAddr,"port": Port}}\n#            return response\n#        if request.env.request_method == "DELETE":\n#            response = {}\n#            return response\n\nresponse._vars=response._caller(service_instances)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__getslice__'
+p12
+S"<method-wrapper '__getslice__' of exceptions.IOError object>"
+p13
+sS'__str__'
+p14
+S"<method-wrapper '__str__' of exceptions.IOError object>"
+p15
+sS'__reduce__'
+p16
+S'<built-in method __reduce__ of exceptions.IOError object>'
+p17
+sS'__dict__'
+p18
+S'{}'
+p19
+sS'__sizeof__'
+p20
+S'<built-in method __sizeof__ of exceptions.IOError object>'
+p21
+sS'__init__'
+p22
+S"<method-wrapper '__init__' of exceptions.IOError object>"
+p23
+sS'__setattr__'
+p24
+S"<method-wrapper '__setattr__' of exceptions.IOError object>"
+p25
+sS'__reduce_ex__'
+p26
+S'<built-in method __reduce_ex__ of exceptions.IOError object>'
+p27
+sS'__new__'
+p28
+S'<built-in method __new__ of type object>'
+p29
+sS'errno'
+p30
+S'13'
+p31
+sS'__format__'
+p32
+S'<built-in method __format__ of exceptions.IOError object>'
+p33
+sS'__class__'
+p34
+S"<type 'exceptions.IOError'>"
+p35
+sS'filename'
+p36
+S"'/sco_pattern.json'"
+p37
+sS'__doc__'
+p38
+S"'I/O operation failed.'"
+p39
+sS'__getitem__'
+p40
+S"<method-wrapper '__getitem__' of exceptions.IOError object>"
+p41
+sS'__setstate__'
+p42
+S'<built-in method __setstate__ of exceptions.IOError object>'
+p43
+sS'__getattribute__'
+p44
+S"<method-wrapper '__getattribute__' of exceptions.IOError object>"
+p45
+sS'args'
+p46
+S"(13, 'Permission denied')"
+p47
+sS'__subclasshook__'
+p48
+S'<built-in method __subclasshook__ of type object>'
+p49
+sS'__unicode__'
+p50
+S'<built-in method __unicode__ of exceptions.IOError object>'
+p51
+sS'strerror'
+p52
+S"'Permission denied'"
+p53
+sS'__delattr__'
+p54
+S"<method-wrapper '__delattr__' of exceptions.IOError object>"
+p55
+sS'__repr__'
+p56
+S"<method-wrapper '__repr__' of exceptions.IOError object>"
+p57
+sS'__hash__'
+p58
+S"<method-wrapper '__hash__' of exceptions.IOError object>"
+p59
+ssS'evalue'
+p60
+S"[Errno 13] Permission denied: '/sco_pattern.json'"
+p61
+sS'request'
+p62
+cgluon.html
+XML_unpickle
+p63
+(S'sQA\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>sco_broker</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>b4ef9b80-3184-4351-aa28-b24799138d7b</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>50.22.226.23</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>v2</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">CONTENT_LENGTH</td><td style="vertical-align:top;">:</td><td><div>213</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">CONTENT_TYPE</td><td style="vertical-align:top;">:</td><td><div>application/json</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">DOCUMENT_ROOT</td><td style="vertical-align:top;">:</td><td><div>/etc/nginx/html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>application/json</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_AUTHORIZATION</td><td style="vertical-align:top;">:</td><td><div>Basic cmNzb3VzYTpwYXNzd29yZA==</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONTENT_LENGTH</td><td style="vertical-align:top;">:</td><td><div>213</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONTENT_TYPE</td><td style="vertical-align:top;">:</td><td><div>application/json</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>www.rcsousa.com.br</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Ruby</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_X_BROKER_API_VERSION</td><td style="vertical-align:top;">:</td><td><div>2.3</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_X_VCAP_REQUEST_ID</td><td style="vertical-align:top;">:</td><td><div>a2283105-d3de-4121-7ed6-a2227d48a2cc::f719d504-9ba5-4c41-82f1-7aaeca1926cf</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/sco_broker/v2/service_instances/b4ef9b80-3184-4351-aa28-b24799138d7b</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>50.22.226.23</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>38919</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>PUT</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_URI</td><td style="vertical-align:top;">:</td><td><div>/sco_broker/v2/service_instances/b4ef9b80-3184-4351-aa28-b24799138d7b</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>www.rcsousa.com.br</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>80</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>nginx/1.4.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">UWSGI_SCHEME</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/var/www/web2py/applications/sco_broker/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/var/www/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">content_length</td><td style="vertical-align:top;">:</td><td><div>213</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">content_type</td><td style="vertical-align:top;">:</td><td><div>application/json</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">document_root</td><td style="vertical-align:top;">:</td><td><div>/etc/nginx/html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/var/www/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>application/json</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_authorization</td><td style="vertical-align:top;">:</td><td><div>Basic cmNzb3VzYTpwYXNzd29yZA==</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_content_length</td><td style="vertical-align:top;">:</td><td><div>213</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_content_type</td><td style="vertical-align:top;">:</td><td><div>application/json</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>www.rcsousa.com.br</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Ruby</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_x_broker_api_version</td><td style="vertical-align:top;">:</td><td><div>2.3</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_x_vcap_request_id</td><td style="vertical-align:top;">:</td><td><div>a2283105-d3de-4121-7ed6-a2227d48a2cc::f719d504-9ba5-4c41-82f1-7aaeca1926cf</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/sco_broker/v2/service_instances/b4ef9b80-3184-4351-aa28-b24799138d7b</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>50.22.226.23</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>38919</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>PUT</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/sco_broker/v2/service_instances/b4ef9b80-3184-4351-aa28-b24799138d7b</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>www.rcsousa.com.br</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>80</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>nginx/1.4.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi.node</td><td style="vertical-align:top;">:</td><td><div>dev-rcsousa-03</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi.version</td><td style="vertical-align:top;">:</td><td><div>1.9.20</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi_node</td><td style="vertical-align:top;">:</td><td><div>dev-rcsousa-03</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi_version</td><td style="vertical-align:top;">:</td><td><div>1.9.20</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/var/www/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.7.4-stable+timestamp.2013.10.14.15.16.29</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;wsgi_errors&#x27;, mode &#x27;w&#x27; at 0x2c0a660&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;built-in function uwsgi_sendfile&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;uwsgi._Input object at 0x7f7e13599930&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;wsgi_errors&#x27;, mode &#x27;w&#x27; at 0x2c0a660&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;built-in function uwsgi_sendfile&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;uwsgi._Input object at 0x7f7e13599930&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/var/www/web2py/applications/sco_broker/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>service_instances</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/var/www/web2py/applications/sco_broker/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/var/www/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/var/www/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>162.209.88.13</div></td></tr><tr><td><div>dev-rcsousa-03</div></td></tr><tr><td><div>10.208.146.205</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>www.rcsousa.com.br</div></td></tr><tr><td><div>2001:4801:7821:77:8ce5:6608:ff10:afc0</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.7.4-stable+timestamp.2013.10.14.15.16.29</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2014, 7, 4, 16, 30, 41, 620017)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div>b4ef9b80-3184-4351-aa28-b24799138d7b</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/sco_broker/v2/service_instances/b4ef9b80-3184-4351-aa28-b24799138d7b</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2014, 7, 4, 16, 30, 41, 620099)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uuid</td><td style="vertical-align:top;">:</td><td><div>sco_broker/50.22.226.23.2014-07-04.16-30-41.8455c09b-d0e2-4c2f-9081-15a40ecfb9dc</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x2ce6cd0&gt;</div></td></tr></table></div>'
+tRp64
+sS'frames'
+p65
+(lp66
+(dp67
+S'file'
+p68
+S'/var/www/web2py/gluon/restricted.py'
+p69
+sS'dump'
+p70
+(dp71
+S'environment'
+p72
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, 'CENTER': <class 'gluon.html.CENTER'>, ...}"
+p73
+sS'ccode'
+p74
+S'<code object <module> at 0x2fa35d0, file "/var/w...plications/sco_broker/controllers/v2.py", line 2>'
+p75
+ssS'lnum'
+p76
+I217
+sS'lines'
+p77
+(dp78
+I212
+S'    try:'
+p79
+sI213
+S'        if isinstance(code, types.CodeType):'
+p80
+sI214
+S'            ccode = code'
+p81
+sI215
+S'        else:'
+p82
+sI216
+S'            ccode = compile2(code, layer)'
+p83
+sI217
+S'        exec ccode in environment'
+p84
+sI218
+S'    except HTTP:'
+p85
+sI219
+S'        raise'
+p86
+sI220
+S'    except RestrictedError:'
+p87
+sI221
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p88
+ssS'call'
+p89
+S"(code='# coding: utf8\\nauth.settings.allow_basic_login =...sponse._vars=response._caller(service_instances)\\n', environment={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, 'CENTER': <class 'gluon.html.CENTER'>, ...}, layer='/var/www/web2py/applications/sco_broker/controllers/v2.py')"
+p90
+sS'func'
+p91
+S'restricted'
+p92
+sa(dp93
+g68
+S'/var/www/web2py/applications/sco_broker/controllers/v2.py'
+p94
+sg70
+(dp95
+sg76
+I90
+sg77
+(dp96
+I79
+S'#                list.append(cont_deep)'
+p97
+sI80
+S'#            for y in list:'
+p98
+sI81
+S"#                if y['Config']['Hostname'] == host:"
+p99
+sI82
+S"#                    IpAddr = y['NetworkSettings']['IPAddress']"
+p100
+sI83
+S"#                    Port = y['NetworkSettings']['Ports']"
+p101
+sI84
+S'#            response = {"credentials": {"password": password,"host": IpAddr,"port": Port}}'
+p102
+sI85
+S'#            return response'
+p103
+sI86
+S'#        if request.env.request_method == "DELETE":'
+p104
+sI87
+S'#            response = {}'
+p105
+sI88
+S'#            return response'
+p106
+ssg89
+S'()'
+p107
+sg91
+S'<module>'
+p108
+sa(dp109
+g68
+S'/var/www/web2py/gluon/globals.py'
+p110
+sg70
+(dp111
+S'self'
+p112
+S'undefined'
+p113
+sS'f'
+S'<function service_instances>'
+p114
+ssg76
+I372
+sg77
+(dp115
+I367
+S'        self.menu = []             # used by the default view layout'
+p116
+sI368
+S'        self.files = []            # used by web2py_ajax.html'
+p117
+sI369
+S'        self.generic_patterns = []  # patterns to allow generic views'
+p118
+sI370
+S"        self.delimiters = ('{{', '}}')"
+p119
+sI371
+S'        self._vars = None'
+p120
+sI372
+S'        self._caller = lambda f: f()'
+p121
+sI373
+S'        self._view_environment = None'
+p122
+sI374
+S'        self._custom_commit = None'
+p123
+sI375
+S'        self._custom_rollback = None'
+p124
+sI376
+S''
+ssg89
+S'(f=<function service_instances>)'
+p125
+sg91
+S'<lambda>'
+p126
+sa(dp127
+g68
+S'/var/www/web2py/gluon/tools.py'
+p128
+sg70
+(dp129
+S'action'
+p130
+S'<function service_instances>'
+p131
+sS'a'
+S'()'
+p132
+sS'b'
+g19
+ssg76
+I3239
+sg77
+(dp133
+I3234
+S'                    flag = condition'
+p134
+sI3235
+S'                if not flag:'
+p135
+sI3236
+S'                    current.session.flash = self.messages.access_denied'
+p136
+sI3237
+S'                    return call_or_redirect('
+p137
+sI3238
+S'                        self.settings.on_failed_authorization)'
+p138
+sI3239
+S'                return action(*a, **b)'
+p139
+sI3240
+S'            f.__doc__ = action.__doc__'
+p140
+sI3241
+S'            f.__name__ = action.__name__'
+p141
+sI3242
+S'            f.__dict__.update(action.__dict__)'
+p142
+sI3243
+S'            return f'
+p143
+ssg89
+S'(*a=(), **b={})'
+p144
+sg91
+S'f'
+sa(dp145
+g68
+S'/var/www/web2py/applications/sco_broker/controllers/v2.py'
+p146
+sg70
+(dp147
+S'builtinopen'
+p148
+S'<built-in function open>'
+p149
+sS'json_content_write'
+p150
+g113
+ssg76
+I51
+sg77
+(dp151
+I46
+S'        build_content_read = json.load(json_content_read)'
+p152
+sI47
+S'\tjson_content_read.close()'
+p153
+sI48
+S''
+sI49
+S"    build_content_read['name'] = id"
+p154
+sI50
+S''
+sI51
+S"    with open('/sco_pattern.json', 'w') as json_content_write:"
+p155
+sI52
+S'        json_content_write.write(json.dumps(build_content_read))'
+p156
+sI53
+S'\tjson_content_write.close()'
+p157
+sI54
+S''
+sI55
+S"    with open('/sco_pattern.json') as json_content:"
+p158
+ssg89
+S'()'
+p159
+sg91
+S'service_instances'
+p160
+sasS'pyver'
+p161
+S'Python 2.6.6: /usr/bin/uwsgi (prefix: /usr)'
+p162
+sS'session'
+p163
+g63
+(S'sn\x08\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">auth</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">expiration</td><td style="vertical-align:top;">:</td><td><div>3600</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">hmac_key</td><td style="vertical-align:top;">:</td><td><div>5fcf3413-cc21-4d7b-8f81-d7a9beb60afc</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_visit</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2014, 7, 4, 16, 30, 41, 620017)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">email</td><td style="vertical-align:top;">:</td><td><div>ricardo.c.sousa@gmail.com</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">first_name</td><td style="vertical-align:top;">:</td><td><div>ricardo</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">id</td><td style="vertical-align:top;">:</td><td><div>1L</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_name</td><td style="vertical-align:top;">:</td><td><div>sousa</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_id</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">reset_password_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">username</td><td style="vertical-align:top;">:</td><td><div>rcsousa</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user_groups</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">1</td><td style="vertical-align:top;">:</td><td><div>user_1</div></td></tr></table></div></td></tr></table></div></td></tr></table></div>'
+tRp164
+sS'etype'
+p165
+S"<type 'exceptions.IOError'>"
+p166
+sS'date'
+p167
+S'Fri Jul  4 16:30:41 2014'
+p168
+sS'response'
+p169
+g63
+(S's\x131\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x2ce8dc0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_sco_broker</td><td style="vertical-align:top;">:</td><td><div>50.22.226.23-273fed79-a37f-4c19-9c6a-5794dec5ae2f<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">google_analytics_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">logo</td><td style="vertical-align:top;">:</td><td><div><a class="brand" data-w2p_disable_with="default" href="http://www.web2py.com/"><b>web<span>2</span>py</b>&trade;&nbsp;</a></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>Home</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/sco_broker/default/index</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div><span class="highlighted">web2py</span></div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>My Sites</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/site</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>This App</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/design/sco_broker</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Controller&#x27;&gt;, False, &#x27;/admin/default/edit/sco_broker/controllers/v2.py&#x27;), (&lt;lazyT &#x27;View&#x27;&gt;, False, &#x27;/admin/default/edit/sco_broker/views/v2/service_instances.html&#x27;), (&lt;lazyT &#x27;Layout&#x27;&gt;, False, &#x27;/admin/default/edit/sco_broker/views/layout.html&#x27;), (&lt;lazyT &#x27;Stylesheet&#x27;&gt;, False, &#x27;/admin/default/edit/sco_broker/static/css/web2py.css&#x27;), (&lt;lazyT &#x27;DB Model&#x27;&gt;, False, &#x27;/admin/default/edit/sco_broker/models/db.py&#x27;), (&lt;lazyT &#x27;Menu Model&#x27;&gt;, False, &#x27;/admin/default/edit/sco_broker/models/menu.py&#x27;), (&lt;lazyT &#x27;Database&#x27;&gt;, False, &#x27;/sco_broker/appadmin/index&#x27;), (&lt;lazyT &#x27;Errors&#x27;&gt;, False, &#x27;/admin/default/errors/sco_broker&#x27;), (&lt;lazyT &#x27;About&#x27;&gt;, False, &#x27;/admin/default/about/sco_broker&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>web2py.com</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Download&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/download&#x27;), (&lt;lazyT &#x27;Support&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/support&#x27;), (&lt;lazyT &#x27;Demo&#x27;&gt;, False, &#x27;http://web2py.com/demo_admin&#x27;), (&lt;lazyT &#x27;Quick Examples&#x27;&gt;, False, &#x27;http://web2py.com/examples/default/examples&#x27;), (&lt;lazyT &#x27;FAQ&#x27;&gt;, False, &#x27;http://web2py.com/AlterEgo&#x27;), (&lt;lazyT &#x27;Videos&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/videos/&#x27;), (&lt;lazyT &#x27;Free Applications&#x27;&gt;, False, &#x27;http://web2py.com/appliances&#x27;), (&lt;lazyT &#x27;Plugins&#x27;&gt;, False, &#x27;http://web2py.com/plugins&#x27;), (&lt;lazyT &#x27;Layouts&#x27;&gt;, False, &#x27;http://web2py.com/layouts&#x27;), (&lt;lazyT &#x27;Recipes&#x27;&gt;, False, &#x27;http://web2pyslices.com/&#x27;), (&lt;lazyT &#x27;Semantic&#x27;&gt;, False, &#x27;http://web2py.com/semantic&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Documentation</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Preface&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/00&#x27;), (&lt;lazyT &#x27;Introduction&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/01&#x27;), (&lt;lazyT &#x27;Python&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/02&#x27;), (&lt;lazyT &#x27;Overview&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/03&#x27;), (&lt;lazyT &#x27;The Core&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/04&#x27;), (&lt;lazyT &#x27;The Views&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/05&#x27;), (&lt;lazyT &#x27;Database&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/06&#x27;), (&lt;lazyT &#x27;Forms and Validators&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/07&#x27;), (&lt;lazyT &#x27;Email and SMS&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/08&#x27;), (&lt;lazyT &#x27;Access Control&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/09&#x27;), (&lt;lazyT &#x27;Services&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/10&#x27;), (&lt;lazyT &#x27;Ajax Recipes&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/11&#x27;), (&lt;lazyT &#x27;Components and Plugins&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/12&#x27;), (&lt;lazyT &#x27;Deployment Recipes&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/13&#x27;), (&lt;lazyT &#x27;Other Recipes&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/14&#x27;), (&lt;lazyT &#x27;Buy this book&#x27;&gt;, False, &#x27;http://stores.lulu.com/web2py&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Community</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>None</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Groups&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/usergroups&#x27;), (&lt;lazyT &#x27;Twitter&#x27;&gt;, False, &#x27;http://twitter.com/web2py&#x27;), (&lt;lazyT &#x27;Live Chat&#x27;&gt;, False, &#x27;http://webchat.freenode.net/?channels=web2py&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Plugins</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>None</div></td></tr><tr><td><div>[(&#x27;plugin_wiki&#x27;, False, &#x27;http://web2py.com/examples/default/download&#x27;), (&lt;lazyT &#x27;Other Plugins&#x27;&gt;, False, &#x27;http://web2py.com/plugins&#x27;), (&lt;lazyT &#x27;Layout Plugins&#x27;&gt;, False, &#x27;http://web2py.com/layouts&#x27;)]</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">author</td><td style="vertical-align:top;">:</td><td><div>Your Name &lt;you@example.com&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">description</td><td style="vertical-align:top;">:</td><td><div>a cool new app</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generator</td><td style="vertical-align:top;">:</td><td><div>Web2py Web Framework</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">keywords</td><td style="vertical-align:top;">:</td><td><div>web2py, python, framework</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^v2/\\w+\\.py$</div></td></tr><tr><td><div>^v2/service_instances/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>50.22.226.23</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_key</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_sco_broker</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/var/www/web2py/applications/sco_broker/sessions/50.22.226.23-8483a0ea-3a04-4231-8792-20bcedbb3c6f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>106f4c22ca06cc343e42b73a0d8492f6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>50.22.226.23-8483a0ea-3a04-4231-8792-20bcedbb3c6f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_sco_broker</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>sco_broker</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">subtitle</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">title</td><td style="vertical-align:top;">:</td><td><div>Sco Broker</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>v2/service_instances.html</div></td></tr></table></div>'
+tRp170
+sS'locals'
+p171
+(dp172
+S'sco_api_headers'
+p173
+S"{u'Accept': u'application/json', u'Cache-Control': u'no-cache', u'Content-Type': u'application/json', u'X-IBM-Workload-Deployer-API-Version': u'4.0.0.1'}"
+p174
+sS'yaml_settings'
+p175
+S"{'catalog': {'services': [{'bindable': False, 'description': 'Created a new SCO instance', 'id': '3ca8acfe-0390-11e4-9e4e-bc764e10afc0', 'metadata': {'displayName': 'IBM SCO', 'documentationUrl': None, 'imageUrl': None, 'longDescription': 'SmartCloud Orchestrator', 'providerDisplayName': 'IBM', 'supportUrl': None}, 'name': 'sco-broker', 'plans': [{'description': 'IBM SCO Instance', 'id': '5b81dbf0-0390-11e4-9e4e-bc764e10afc0', 'metadata': {...}, 'name': 'free'}], 'tags': ['SmartCloud Orchestrator']}]}, 'pattern': {'api_ep': [{'headers': {'Accept': 'application/json', 'Cache-Control': 'no-cache', 'Content-Type': 'application/json', 'X-IBM-Workload-Deployer-API-Version': '4.0.0.1'}, 'password': 'passw0rd', 'url': 'https://75.126.144.238', 'user': 'admin'}]}}"
+p176
+sS'json_settings'
+p177
+S'\'{"pattern": {"api_ep": [{"url": "https://75.126....nit": "MONTHLY"}], "displayName": "Public"}}]}]}}\''
+p178
+sS'sco_api_url'
+p179
+S"u'https://75.126.144.238'"
+p180
+sS'f'
+S"<closed file '/settings_sco.yml', mode 'r'>"
+p181
+sS'data'
+p182
+S"{u'catalog': {u'services': [{u'bindable': False, u'description': u'Created a new SCO instance', u'id': u'3ca8acfe-0390-11e4-9e4e-bc764e10afc0', u'metadata': {u'displayName': u'IBM SCO', u'documentationUrl': None, u'imageUrl': None, u'longDescription': u'SmartCloud Orchestrator', u'providerDisplayName': u'IBM', u'supportUrl': None}, u'name': u'sco-broker', u'plans': [{u'description': u'IBM SCO Instance', u'id': u'5b81dbf0-0390-11e4-9e4e-bc764e10afc0', u'metadata': {...}, u'name': u'free'}], u'tags': [u'SmartCloud Orchestrator']}]}, u'pattern': {u'api_ep': [{u'headers': {u'Accept': u'application/json', u'Cache-Control': u'no-cache', u'Content-Type': u'application/json', u'X-IBM-Workload-Deployer-API-Version': u'4.0.0.1'}, u'password': u'passw0rd', u'url': u'https://75.126.144.238', u'user': u'admin'}]}}"
+p183
+sS'sco_api_password'
+p184
+S"u'passw0rd'"
+p185
+sS'json_content_read'
+p186
+S"<closed file '/sco_pattern.json', mode 'r'>"
+p187
+sS'id'
+p188
+S"['b4ef9b80-3184-4351-aa28-b24799138d7b']"
+p189
+sS'yaml'
+p190
+S"<module 'yaml' from '/usr/lib64/python2.6/site-packages/yaml/__init__.pyc'>"
+p191
+sS'json'
+p192
+S"<module 'json' from '/usr/lib64/python2.6/json/__init__.pyc'>"
+p193
+sS'build_content_read'
+p194
+S"{u'environmentProfile': u'/resources/environmentProfiles/1', u'name': ['b4ef9b80-3184-4351-aa28-b24799138d7b'], u'parts': [{u'cloud': u'/resources/clouds/1', u'description': u'Red Hat Enterprise Linux 6 (64-bit)', u'id': 1, u'label': u'Image_RedHat_LS_Public', u'nics': [[{u'ipGroup': u'/resources/ipGroups/22'}]], u'properties': [{u'description': u'This is the username for the root account', u'key': u'username', u'label': u'Root username', u'pclass': u'ConfigPWD_ROOT', u'type': u'string', u'value': u'root'}, {u'description': u'This is the Administrator password for the system', u'key': u'password', u'label': u'Administrator Password', u'pclass': u'ConfigPWD_ROOT', u'type': u'string', u'value': u'passw0rd'}, {u'description': u'The OpenStack region', u'key': u'region', u'label': u'Region', u'pclass': u'ConfigOpenStack', u'type': u'string', u'value': u'RegionVMWare'}, {u'description': u'The flavor of the virtual machine', u'key': u'flavorid', u'label': u'Flavor', u'pclass': u'ConfigOpenStack', u'type': u'string', u'value': u'3'}]}], u'pattern': u'/resources/patterns/34'}"
+p195
+sS'docker'
+p196
+S"<module 'docker' from '/usr/lib/python2.6/site-packages/docker/__init__.pyc'>"
+p197
+sS'os'
+p198
+S"<module 'os' from '/usr/lib64/python2.6/os.pyc'>"
+p199
+sS'requests'
+p200
+S"<module 'requests' from '/usr/lib/python2.6/site-packages/requests/__init__.pyc'>"
+p201
+sS'sco_api_user'
+p202
+S"u'admin'"
+p203
+sS'uuid'
+p204
+S"<module 'uuid' from '/usr/lib64/python2.6/uuid.pyc'>"
+p205
+sssS'traceback'
+p206
+S'Traceback (most recent call last):\n  File "/var/www/web2py/gluon/restricted.py", line 217, in restricted\n    exec ccode in environment\n  File "/var/www/web2py/applications/sco_broker/controllers/v2.py", line 90, in <module>\n  File "/var/www/web2py/gluon/globals.py", line 372, in <lambda>\n    self._caller = lambda f: f()\n  File "/var/www/web2py/gluon/tools.py", line 3239, in f\n    return action(*a, **b)\n  File "/var/www/web2py/applications/sco_broker/controllers/v2.py", line 51, in service_instances\n    with open(\'/sco_pattern.json\', \'w\') as json_content_write:\nIOError: [Errno 13] Permission denied: \'/sco_pattern.json\'\n'
+p207
+s.
