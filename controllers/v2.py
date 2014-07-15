@@ -32,16 +32,16 @@ def service_instances():
     sco_api_headers = data['pattern']['api_ep'][0]['headers']
     with open('/sco_pattern.json', 'r') as json_content_read:
         build_content_read = json.load(json_content_read)
-	json_content_read.close()
+        json_content_read.close()
 
     build_content_read['name'] = id[0]
 
     with open('/sco_pattern.json', 'w') as json_content_write:
         json_content_write.write(json.dumps(build_content_read))
-	json_content_write.close()
+        json_content_write.close()
 
     with open('/sco_pattern.json') as json_content:
-	build_content_load = json.load(json_content)
+        build_content_load = json.load(json_content)
         build_content = json.dumps(build_content_load)
 
     if len(id) == 1:
@@ -51,31 +51,34 @@ def service_instances():
             return response
         if request.env.request_method == "DELETE":
             try:
-            	r = requests.get(sco_api_url+'/resources/virtualSystems', verify=False, auth=(sco_api_user, sco_api_password), headers=sco_api_headers)
-		for i in r.json():
-			if str(i['name']) == str(id[0]):
-				sco_id = str(i['id'])
-				delete = requests.delete(sco_api_url+'/resources/virtualSystems/'+sco_id, verify=False, auth=(sco_api_user, sco_api_password), headers=sco_api_headers)
-               	response = {}
-               	return response
+                r = requests.get(sco_api_url+'/resources/virtualSystems', verify=False, auth=(sco_api_user, sco_api_password), headers=sco_api_headers)
+                for i in r.json():
+                        if str(i['name']) == str(id[0]):
+                                sco_id = str(i['id'])
+                                delete = requests.delete(sco_api_url+'/resources/virtualSystems/'+sco_id, verify=False, auth=(sco_api_user, sco_api_password), headers=sco_api_headers)
+                response = {}
+                return response
             except:
                 raise HTTP(410, "Gone")
                 response = {}
                 return response
 
-#    if len(id) > 1:
-#        if request.env.request_method == "PUT":
-#            list = []
-#            containers_l = c.containers()
-#            for x in containers_l:
-#                cont_deep = c.inspect_container(x['Id'])
-#                list.append(cont_deep)
-#            for y in list:
-#                if y['Config']['Hostname'] == host:
-#                    IpAddr = y['NetworkSettings']['IPAddress']
-#                    Port = y['NetworkSettings']['Ports']
-#            response = {"credentials": {"password": password,"host": IpAddr,"port": Port}}
-#            return response
-#        if request.env.request_method == "DELETE":
-#            response = {}
-#            return response
+    if len(id) > 1:
+        if request.env.request_method == "PUT":
+            try:
+                r = requests.get(sco_api_url+'/resources/virtualSystems', verify=False, auth=(sco_api_user, sco_api_password), headers=sco_api_headers)
+                for i in r.json():
+                    if str(i['name']) == str(id[0]):
+                        sco_id = str(i['id'])
+                        s = requests.get(sco_api_url+'/resources/virtualSystems/'+sco_id+'/virtualMachines', verify=False, auth=(sco_api_user, sco_api_password), headers=sco_api_headers)
+                        for data in s.json():
+                            ip_addr = str(data['nics'][0]['ip_address'])
+                response = {"credentials": {"ip_address": ip_addr}}
+                return response
+            except:
+                raise HTTP(404, "Not Found")
+                response = {}
+                return response
+        if request.env.request_method == "DELETE":
+            response = {}
+            return response
