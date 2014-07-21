@@ -1,0 +1,4 @@
+#!/bin/bash
+/usr/bin/apt-get -y install memcached && \
+/bin/sed -i 's/-l/#-l/' /etc/memcached.conf && \
+/etc/init.d/memcached restart
